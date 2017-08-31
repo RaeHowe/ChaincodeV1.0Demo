@@ -135,6 +135,85 @@ func GetProductByAddress(stub shim.ChaincodeStubInterface, args []string) pb.Res
 	return shim.Success(buffer.Bytes())
 }
 
+func GetMusicByIndexOfSong(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	if len(args) < 2{
+		return shim.Error("GetMusicByIndexOfSong parameter count can't less 2")
+	}
+	var err error
+
+	song := args[0]
+	words := args[1]
+
+	indexName := "index~music2"
+	musicResultsIterator, err := stub.GetStateByPartialCompositeKey(indexName, []string{song, words})
+	if err != nil{
+		return shim.Error(err.Error())
+	}
+
+	defer musicResultsIterator.Close()
+
+	var i int
+	var result = ""
+	for i = 0; musicResultsIterator.HasNext(); i++{
+		responseRange, err := musicResultsIterator.Next()
+		if err != nil{
+			return shim.Error(err.Error())
+		}
+
+		indexName, compositeKeyParts, err := stub.SplitCompositeKey(responseRange.Key)
+		if err != nil{
+			return shim.Error(err.Error())
+		}
+
+		returnSong := compositeKeyParts[0]
+		returnWords := compositeKeyParts[1]
+
+		result += fmt.Sprintf("found a music from index:%s song:%s words:%s \n", indexName, returnSong, returnWords)
+	}
+
+	return shim.Success([]byte(result))
+}
+
+func GetMusicByIndexOfStyle(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	if len(args) < 2{
+		return shim.Error("GetMusicByIndexOfStyle parameter count can't less 2")
+	}
+	var err error
+
+	style := args[0]
+	name := args[1]
+
+	indexName := "index~music"
+	musicResultsIterator, err := stub.GetStateByPartialCompositeKey(indexName, []string{style, name})
+	if err != nil{
+		return shim.Error(err.Error())
+	}
+	defer musicResultsIterator.Close()
+
+	var i int
+
+	var result = ""
+	for i = 0; musicResultsIterator.HasNext(); i++ {
+		responseRange, err := musicResultsIterator.Next()
+		if err != nil{
+			return shim.Error(err.Error())
+		}
+
+		indexName, compositeKeyParts, err := stub.SplitCompositeKey(responseRange.Key)
+		if err != nil{
+			return shim.Error(err.Error())
+		}
+
+		returnStyle := compositeKeyParts[0]
+		returnName := compositeKeyParts[1]
+		returnSinger := compositeKeyParts[2]
+
+		result += fmt.Sprintf("found a music from index:%s style:%s name:%s singer:%s\n", indexName, returnStyle, returnName, returnSinger)
+	}
+
+	return shim.Success([]byte(result))
+}
+
 //通过索引进行查询
 func GetProductByIndex(stub shim.ChaincodeStubInterface, args []string) pb.Response{
 	if len(args) < 1{
@@ -143,7 +222,9 @@ func GetProductByIndex(stub shim.ChaincodeStubInterface, args []string) pb.Respo
 	var err error
 	address := args[0]
 
-	productResultsIterator, err := stub.GetStateByPartialCompositeKey("myIndex", []string{address})
+	indexName := "myIndex"
+	//使用相应产品的索引来进行查询
+	productResultsIterator, err := stub.GetStateByPartialCompositeKey(indexName, []string{address})
 	if err != nil{
 		return shim.Error(err.Error())
 	}
