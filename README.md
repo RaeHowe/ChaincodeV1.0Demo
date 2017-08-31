@@ -14,6 +14,9 @@
 		9.selectProductByRange 范围查询产品信息
 		10.selectProductByAddress 通过产品地址，运用couchDB的丰富查询功能，进行查询
 		11.selectProductByIndex 通过索引来进行查询
+		12.selectHistoryForProduct 查找数据修改的历史记录
+		13.selectMusicByIndexOfStyle 通过以music对象中的style作为主查询索引进行查询
+		14.selectMusicByIndexOfSong 通过以music对象中的song作为主查询索引进行查询
 	在这里主要讲解新增产品和后三种查询功能，其他的功能，确实简单，请自行学习.
 	在新增产品这个函数中，除了通常的将产品信息插入到账本数据库中之外，还新增了将该产品的索引信息插入到账本数据库中，过程如下：首先，你需要命名好索引的名称，在本例中，我命名为myIndex,之后需要确定这个索引可以查出哪些你需要的内容（内容是从该产品中的属性信息进行选取的），本例中，我选取了产品的地址和产品名称.这里需要注意一点，选取的属性信息，第一个是你必须作为参数进行查询的条件，本例中，代码为:addressNameIndexKey, err := stub.CreateCompositeKey(indexName, []string{product.Address, product.Productname}) ,那么你就必须输入产品的地址信息，以进行查询使用
 
