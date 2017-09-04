@@ -57,6 +57,7 @@ func UpdateUser(stub shim.ChaincodeStubInterface, args []string) pb.Response{
 	return shim.Success(nil)
 }
 
+//还没有加索引的更新
 func UpdateTest(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if len(args) != 4{
 		return shim.Error("UpdateTest arguments count isn't 4")

@@ -57,7 +57,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	case "updateProduct":
 		return update.UpdateProduct(stub, args)
 	case "updateTest":
-		return update.UpdateTest(stub, args)
+		return update.UpdateTest(stub, args) //还没有添加索引的更新
 		//删除操作
 	case "deleteUser":
 		return delete.DeleteUser(stub, args)
