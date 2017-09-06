@@ -90,6 +90,7 @@ func UpdateTest(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if err != nil{
 		return shim.Error(err.Error()) //Obj to JSON has error
 	}
+	//更新数据
 	err = stub.PutState(key, newJSONBytes)
 	if err != nil{
 		return shim.Error(err.Error()) //Save data has error

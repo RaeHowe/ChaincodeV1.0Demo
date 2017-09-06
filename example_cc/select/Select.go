@@ -186,7 +186,7 @@ func GetTestByIndexOfD(stub shim.ChaincodeStubInterface, args []string) pb.Respo
 		returnD := compositeKeyParts[0]
 		returnA := compositeKeyParts[1]
 
-		result += fmt.Sprintf("data%d: Get Test obj from index:%s D:%s A:%s \n", i, indexName, returnD, returnA)
+		result += fmt.Sprintf("data%d: Get Test obj from index:%s D:%s A:%s \n", i+1, indexName, returnD, returnA)
 
 		result += "}"
 		if needComma == true {
@@ -233,7 +233,7 @@ func GetTestByIndexOfDA(stub shim.ChaincodeStubInterface, args []string) pb.Resp
 		returnD := compositeKeyParts[0]
 		returnA := compositeKeyParts[1]
 
-		result += fmt.Sprintf("data%d: Get Test obj from index:%s D:%s A:%s \n", i, indexName, returnD, returnA)
+		result += fmt.Sprintf("data%d: Get Test obj from index:%s D:%s A:%s \n", i+1, indexName, returnD, returnA)
 
 		result += "}"
 		if needComma == true {
@@ -279,7 +279,7 @@ func GetTestByIndexOfB(stub shim.ChaincodeStubInterface, args []string) pb.Respo
 		returnB := compositeKeyParts[0]
 		returnC := compositeKeyParts[1]
 
-		result += fmt.Sprintf("data%d: Get Test obj from index:%s B:%s C:%s \n", i, indexName, returnB, returnC)
+		result += fmt.Sprintf("data%d: Get Test obj from index:%s B:%s C:%s \n", i+1, indexName, returnB, returnC)
 
 		result += "}"
 		if needComma == true {
@@ -326,7 +326,7 @@ func GetTestByIndexOfBC(stub shim.ChaincodeStubInterface, args []string) pb.Resp
 		returnB := compositeKeyParts[0]
 		returnC := compositeKeyParts[1]
 
-		result += fmt.Sprintf("data%d: Get Test obj from index:%s B:%s C:%s \n", i, indexName, returnB, returnC)
+		result += fmt.Sprintf("data%d: Get Test obj from index:%s B:%s C:%s \n", i+1, indexName, returnB, returnC)
 
 		result += "}"
 		if needComma == true {

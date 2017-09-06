@@ -103,19 +103,21 @@ func AddTest(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	}
 
 	//验证compositeKey的唯一性
+	var message = ""
 	resKeyArr, err := stub.GetState(testIndexKey)
 	if err != nil{
 		return shim.Error(err.Error())
-	}else if resKeyArr != nil{
-		return shim.Error("This compositeKey already exists:" + testIndexKey)
 	}
 
-	value := []byte{0x00}
-	err = stub.PutState(testIndexKey, value)
-	if err != nil{
-		return shim.Error(err.Error())
+	if resKeyArr != nil{ //证明该索引已经存在了
+			message = "Add object success, but add this index has error, because this index already exist"
+	}else { //保存该索引信息
+		value := []byte{0x00}
+		err = stub.PutState(testIndexKey, value)
+		if err != nil{
+			return shim.Error(err.Error())
+		}
 	}
-
 	//###############以对象中的D、A作为compositeKey进行查询###############
 	indexName2 := "myIndexOfDA"
 	testIndexKey2, err := stub.CreateCompositeKey(indexName2, []string{test.D, test.A})
@@ -127,17 +129,19 @@ func AddTest(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	resKeyArr2, err := stub.GetState(testIndexKey2)
 	if err != nil{
 		return shim.Error(err.Error())
-	}else if resKeyArr2 != nil{
-		return shim.Error("This compositeKey already exists:" + testIndexKey2)
 	}
 
-	value2 := []byte{0x00}
-	err = stub.PutState(testIndexKey2, value2)
-	if err != nil{
-		return shim.Error(err.Error())
+	if resKeyArr2 != nil{
+		message = "Add object success, but add this index has error, because this index already exist"
+	}else {
+		value2 := []byte{0x00}
+		err = stub.PutState(testIndexKey2, value2)
+		if err != nil{
+			return shim.Error(err.Error())
+		}
 	}
 
-	return shim.Success(nil)
+	return shim.Success([]byte(message))
 }
 
 //["苹果","天津",3] ===> 名称，产地，斤/元
